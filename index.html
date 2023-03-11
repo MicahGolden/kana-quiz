@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Micah's Hiragana Quiz!</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+<body>
+<div class="main-div">
+  <div class="header-box">
+    <h1>Micah's Hiragana Quiz!</h1>
+  </div>
+  <div class="game-box-main">
+    <div id="end-card">
+      <h1>You Reached The End!</h1>
+      <p id="final-score-message">Final Score:</p>
+      <p id="final-message"></p>
+    </div>
+    <div id="which-game">
+      <h1>Hiragana Quiz!</h1>
+      <h2>Select your game type:</h2>
+      <div class="type-select">
+        <div>
+        <button class="button-type" id="game-1">Type 1</button>
+        <p>Matching Hiragana to their Romaji</p>
+      </div>  
+      <div>
+        <button class="button-type" id="game-2">Type 2</button>
+        <p>Matching Romaji to their Hiragana</p>
+      </div>
+  </div>
+    </div>
+    <div class="guess-grid" id="guess-grid">
+      <p id="question-number">Question: insertnumberhere</p>
+      <h1>Your Character Is:</h1>
+      <h2 id="to-be-guessed">Insert Character Here</h2>
+      <div class="answer-buttons">
+        <button class="button" id="box-1">1</button>
+        <button class="button" id="box-2">2</button>
+        <button class="button" id="box-3">3</button>
+        <button class="button" id="box-4">4</button>
+    </div>
+    <div class="score-streak">
+      <h3 id="streak"></h3>
+      <h3 id="score"></h3>
+  </div>
+    </div>
+  </div>
+  <div class="footer-box">
+    <h1>Developed by Micah Golden</h1>
+    <p>Powered by Javascript, HTML, and CSS</p>
+    <div class="social-links">
+    <p>Let's Get In Touch!:</p>
+    <a href="http://34.125.165.71/"><i class="fa fa-folder-open"></i></a></a>
+    <a href="https://github.com/MicahGolden"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/micah-g-a034b81a9/"><i class="fab fa-linkedin"></i></a>
+    <a href="https://aerospace-dev.itch.io/"><i class="fab fa-itch-io"></i></a> 
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script src="scripts.js"></script>

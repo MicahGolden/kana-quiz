@@ -1,0 +1,163 @@
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif, 'Hiragino Kaku Gothic Pro', 'Meiryo', 'Yu Gothic', sans-serif;
+  font-size: 16px;
+  background-color: rgb(173, 148, 148);
+}
+
+
+.header-box{
+  text-align: center;
+  border: 1vw solid black;
+  margin: 1em;
+  padding: 1em;
+  background-color: rgb(173, 214, 214);
+}
+.footer-box{
+  text-align: center;
+  border: 1vw solid black;
+  margin: 1em;
+  padding: 1em;
+  background-color: rgb(150, 200, 150);
+}
+
+.social-links{
+  display: flex;
+  justify-content: right; 
+  gap: 20px;
+}
+a{
+  display: flex;
+  color: white;
+  font-size: 3em;
+  text-decoration: none;
+}
+
+a:hover{
+  color: rgb(128, 112, 112);
+}
+
+
+.type-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* add this */
+  text-align: center;
+}
+
+#to-be-guessed{
+  font-size: 4em;
+  background-color: white;
+}
+
+.button-type{
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 1em 2em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2em;
+  margin: 0.5em;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+}
+
+.button-type:hover{
+  background-color: #185d1b;
+  color: white;
+}
+#end-card{
+  display:none;
+  flex-direction: column;
+  text-align: center;
+  font-size: 2em;
+}
+
+.score-streak {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.score-streak > * {
+  margin: 10px;
+}
+
+.game-box-main{
+  text-align: center;
+  border: 2vw solid black;
+  border-radius: 1em;
+  background-color: rgb(214, 172, 194);
+  margin: 1em;
+  padding: 1em;
+}
+
+.answer-buttons{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#guess-grid{
+  display:none;
+}
+
+.button {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 1em 2em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2em;
+  margin: 0.5em;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+}
+
+.button:hover{
+  background-color: #185d1b;
+  color: white;
+}
+
+h3{
+  font-size: 2em;
+}
+@media screen and (max-width: 480px) {
+  .answer-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .button {
+    font-size: 2em;
+    padding: 1em 2em;
+    margin: 0.5em 0;
+    background-color: rgb(214, 172, 194);
+    color: white;
+    border: none;
+    border-radius: 1em;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  #guess-grid {
+    display: none;
+  }
+  
+  .game-box-main {
+    border-width: 1vw;
+    font-size: 2em;
+    margin: 0.5em;
+    padding: 0.5em;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    border-radius: 2em;
+  }
+}
