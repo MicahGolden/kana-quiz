@@ -5,6 +5,7 @@ const toBeGuessed = document.getElementById('to-be-guessed');
 const guessButtons = document.querySelectorAll('.button');
 const guessGrid = document.getElementById("guess-grid");
 const typeOne = document.getElementById("game-1");
+const typeTwo = document.getElementById("game-2");
 const gameTypeButtons = document.getElementById("which-game");
 const box1 = document.querySelector('#box-1');
 const box2 = document.querySelector('#box-2');
@@ -15,6 +16,7 @@ const streakBox = document.getElementById('streak');
 const endCardDiv = document.getElementById('end-card');
 const finalScoreMe = document.getElementById('final-score-message');
 const scoreMessage = document.getElementById('final-message');
+let gameType = 0;
 const hiraganaArray = [
   "あ", "い", "う", "え", "お",
   "か", "き", "く", "け", "こ",
@@ -101,7 +103,7 @@ let box1AnsT2 = "";
 let box2AnsT2 = "";
 let box3AnsT2 = "";
 let box4AnsT2 = "";
-let currentRomaji = "";
+let currentRomaji = ``;
 
 // Universal Game Variables
 let qNumber = 0;
@@ -139,68 +141,124 @@ const gameEnd = () => {
   }
 }
 const shuffleArray = () => {
-  const currentRomaji = hiraganaToRomaji[currentHiragana];
-  const currentBoxesArray = [currentRomaji];
-  while (currentBoxesArray.length < 4) {
-    const randomIndex = Math.floor(Math.random() * romajiArray.length);
-    const randomRomaji = romajiArray[randomIndex];
-    if (!currentBoxesArray.includes(randomRomaji)) {
-      currentBoxesArray.push(randomRomaji);
+  if (gameType === 1){
+    const currentRomaji = hiraganaToRomaji[currentHiragana];
+    const currentBoxesArray = [currentRomaji];
+    while (currentBoxesArray.length < 4) {
+      const randomIndex = Math.floor(Math.random() * romajiArray.length);
+      const randomRomaji = romajiArray[randomIndex];
+      if (!currentBoxesArray.includes(randomRomaji)) {
+        currentBoxesArray.push(randomRomaji);
+      }
     }
+    const shuffledArray = [];
+    while (currentBoxesArray.length > 0) {
+      const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
+      shuffledArray.push(randomChoice);
+    }
+    box1AnsT1 = shuffledArray[0];
+    box2AnsT1 = shuffledArray[1];
+    box3AnsT1 = shuffledArray[2];
+    box4AnsT1 = shuffledArray[3];
   }
-  const shuffledArray = [];
-  while (currentBoxesArray.length > 0) {
-    const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
-    const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
-    shuffledArray.push(randomChoice);
+  if (gameType === 2){
+    const currentHiragana = hiraganaToRomaji[currentRomaji];
+    const currentBoxesArray = [currentHiragana];
+    while (currentBoxesArray.length < 4) {
+      const randomIndex = Math.floor(Math.random() * hiraganaArray.length);
+      const randomHiragana = hiraganaArray[randomIndex];
+      if (!currentBoxesArray.includes(randomHiragana)) {
+        currentBoxesArray.push(randomHiragana);
+      }
+    }
+    const shuffledArray = [];
+    while (currentBoxesArray.length > 0) {
+      const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
+      shuffledArray.push(randomChoice);
+    }
+    box1AnsT2 = shuffledArray[0];
+    box2AnsT2 = shuffledArray[1];
+    box3AnsT2 = shuffledArray[2];
+    box4AnsT2 = shuffledArray[3];
   }
-  box1AnsT1 = shuffledArray[0];
-  box2AnsT1 = shuffledArray[1];
-  box3AnsT1 = shuffledArray[2];
-  box4AnsT1 = shuffledArray[3];
 };
 
-
 const checkAnswer = (button) => {
-  if (button.innerText === hiraganaToRomaji[currentHiragana]) {
-    // code to run if the answer is correct
-    correctSound.play();
-    score ++;
-    streak ++;
-    nextQuestion();
-  } else {
-    // code to run if the answer is incorrect
-    incorrectSound.play();
-    streak = 0;
-    nextQuestion();
+  if (gameType === 1){
+    if (button.innerText === hiraganaToRomaji[currentHiragana]) {
+      correctSound.play();
+      score ++;
+      streak ++;
+      nextQuestion1();
+    } else {
+      incorrectSound.play();
+      streak = 0;
+      nextQuestion1();
+    }
+  }
+  if (gameType === 2){
+    if (button.innerText === hiraganaToRomaji[currentRomaji]) {
+      correctSound.play();
+      score ++;
+      streak ++;
+      nextQuestion1();
+    } else {
+      incorrectSound.play();
+      streak = 0;
+      nextQuestion1();
+    }
   }
 }
 
 const startType1 = () => {
+  gameType = 1;
   guessGrid.style.display = "grid";
   gameTypeButtons.style.display = "none";
-  nextQuestion();
+  nextQuestion1();
 }
 
-const nextQuestion = () => {
+const startType2 = () => {
+  gameType = 2;
+  guessGrid.style.display = "grid";
+  gameTypeButtons.style.display = "none";
+  nextQuestion1();
+}
+
+const nextQuestion1 = () => {
   gameEnd();
   scoreBox.innerText = `Score: ${score}`;
   streakBox.innerText = `🔥: ${streak}`;
-  let randomIndex = Math.floor(Math.random() * hiraganaArray.length);
-  currentHiragana = hiraganaArray.splice(randomIndex, 1)[0];
-  shuffleArray();
-  toBeGuessed.innerText = `${currentHiragana}`;
-  box1.innerText = `${box1AnsT1}`;
-  box2.innerText = `${box2AnsT1}`;
-  box3.innerText = `${box3AnsT1}`;
-  box4.innerText = `${box4AnsT1}`;
-  toBeGuessed.innerText = `${currentHiragana}`
+  if (gameType === 1){
+    let randomIndex = Math.floor(Math.random() * hiraganaArray.length);
+    currentHiragana = hiraganaArray.splice(randomIndex, 1)[0];
+    shuffleArray();
+    toBeGuessed.innerText = `${currentHiragana}`;
+    box1.innerText = `${box1AnsT1}`;
+    box2.innerText = `${box2AnsT1}`;
+    box3.innerText = `${box3AnsT1}`;
+    box4.innerText = `${box4AnsT1}`;
+    toBeGuessed.innerText = `${currentHiragana}`
+  }
+  if (gameType === 2){
+    let randomIndex = Math.floor(Math.random() * romajiArray.length);
+    currentRomaji = romajiArray.splice(randomIndex, 1)[0];
+    shuffleArray();
+    toBeGuessed.innerText = `${currentRomaji}`;
+    box1.innerText = `${box1AnsT2}`;
+    box2.innerText = `${box2AnsT2}`;
+    box3.innerText = `${box3AnsT2}`;
+    box4.innerText = `${box4AnsT2}`;
+    toBeGuessed.innerText = `${currentRomaji}`
+  }
   questionNo.innerText = `Question ${qNumber+1}/46`;
   qNumber += 1;
 }
 
 //Button Events
 typeOne.addEventListener("click", startType1);
+typeTwo.addEventListener("click", startType2);
 guessButtons.forEach((button) => {
   button.addEventListener("click", () => {
     checkAnswer(button);
