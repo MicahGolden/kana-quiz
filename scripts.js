@@ -91,6 +91,56 @@ const hiraganaToRomaji = {
   ん: "n",
 };
 
+const romajiToHiragana = {
+  a: "あ",
+  i: "い",
+  u: "う",
+  e: "え",
+  o: "お",
+  ka: "か",
+  ki: "き",
+  ku: "く",
+  ke: "け",
+  ko: "こ",
+  sa: "さ",
+  shi: "し",
+  su: "す",
+  se: "せ",
+  so: "そ",
+  ta: "た",
+  chi: "ち",
+  tsu: "つ",
+  te: "て",
+  to: "と",
+  na: "な",
+  ni: "に",
+  nu: "ぬ",
+  ne: "ね",
+  no: "の",
+  ha: "は",
+  hi: "ひ",
+  fu: "ふ",
+  he: "へ",
+  ho: "ほ",
+  ma: "ま",
+  mi: "み",
+  mu: "む",
+  me: "め",
+  mo: "も",
+  ya: "や",
+  yu: "ゆ",
+  yo: "よ",
+  ra: "ら",
+  ri: "り",
+  ru: "る",
+  re: "れ",
+  ro: "ろ",
+  wa: "わ",
+  wo: "を",
+  n: "ん",
+};
+
+
 // Game Variables FOR TYPE 1
 let box1AnsT1 = "";
 let box2AnsT1 = "";
@@ -141,7 +191,7 @@ const gameEnd = () => {
   }
 }
 const shuffleArray = () => {
-  if (gameType === 1){
+  if (gameType === 1){ //Game Type 1 Shuffle
     const currentRomaji = hiraganaToRomaji[currentHiragana];
     const currentBoxesArray = [currentRomaji];
     while (currentBoxesArray.length < 4) {
@@ -162,8 +212,8 @@ const shuffleArray = () => {
     box3AnsT1 = shuffledArray[2];
     box4AnsT1 = shuffledArray[3];
   }
-  if (gameType === 2){
-    const currentHiragana = hiraganaToRomaji[currentRomaji];
+  if (gameType === 2){ //Game Type 2 Shuffle
+    const currentHiragana = romajiToHiragana[currentRomaji];
     const currentBoxesArray = [currentHiragana];
     while (currentBoxesArray.length < 4) {
       const randomIndex = Math.floor(Math.random() * hiraganaArray.length);
@@ -175,7 +225,7 @@ const shuffleArray = () => {
     const shuffledArray = [];
     while (currentBoxesArray.length > 0) {
       const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
-      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0]; //ISSUE MAY STEM FROM HERE, KEY NOT BEING READ?
       shuffledArray.push(randomChoice);
     }
     box1AnsT2 = shuffledArray[0];
@@ -185,32 +235,46 @@ const shuffleArray = () => {
   }
 };
 
+
 const checkAnswer = (button) => {
   if (gameType === 1){
     if (button.innerText === hiraganaToRomaji[currentHiragana]) {
       correctSound.play();
       score ++;
       streak ++;
-      nextQuestion1();
+      toBeGuessed.innerText = "Correct!";
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
     } else {
       incorrectSound.play();
       streak = 0;
-      nextQuestion1();
+      toBeGuessed.innerText = `Wrong! The correct answer was ${hiraganaToRomaji[currentHiragana]}.`;
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
     }
   }
   if (gameType === 2){
-    if (button.innerText === hiraganaToRomaji[currentRomaji]) {
+    if (button.innerText === romajiToHiragana[currentRomaji]) {
       correctSound.play();
       score ++;
       streak ++;
-      nextQuestion1();
+      toBeGuessed.innerText = "Correct!";
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
     } else {
       incorrectSound.play();
       streak = 0;
-      nextQuestion1();
+      toBeGuessed.innerText = `Wrong! The correct answer was ${hiraganaToRomaji[currentRomaji]}.`;
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
     }
   }
 }
+
 
 const startType1 = () => {
   gameType = 1;
