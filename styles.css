@@ -35,6 +35,9 @@ a:hover{
   color: rgb(128, 112, 112);
 }
 
+#which-game{
+  display:none;
+}
 
 .type-select {
   display: flex;
@@ -105,6 +108,9 @@ a:hover{
   display:none;
 }
 
+#question-number{
+  font-size: 1.5em;
+}
 .button {
   display: inline-block;
   background-color: #4CAF50;
@@ -149,7 +155,7 @@ h3{
   #guess-grid {
     display: none;
   }
-  
+
   .game-box-main {
     border-width: 1vw;
     font-size: 2em;

@@ -4,8 +4,16 @@ const questionNo = document.getElementById("question-number");
 const toBeGuessed = document.getElementById('to-be-guessed');
 const guessButtons = document.querySelectorAll('.button');
 const guessGrid = document.getElementById("guess-grid");
+const hiraganaSelect = document.getElementById("hiragana-select");
+const katakanaSelect = document.getElementById("katakana-select");
+const whichGame = document.getElementById("which-game");
+const whichKana = document.getElementById("which-kana");
+const kataGames = document.getElementById("katakana-games");
+const hiraGames = document.getElementById("hiragana-games");
 const typeOne = document.getElementById("game-1");
 const typeTwo = document.getElementById("game-2");
+const typeThree = document.getElementById("game-3");
+const typeFour = document.getElementById("game-4");
 const gameTypeButtons = document.getElementById("which-game");
 const box1 = document.querySelector('#box-1');
 const box2 = document.querySelector('#box-2');
@@ -15,6 +23,7 @@ const scoreBox = document.getElementById('score');
 const streakBox = document.getElementById('streak');
 const endCardDiv = document.getElementById('end-card');
 const finalScoreMe = document.getElementById('final-score-message');
+const finalStreakMe = document.getElementById('final-streak-message');
 const scoreMessage = document.getElementById('final-message');
 let gameType = 0;
 const hiraganaArray = [
@@ -40,6 +49,32 @@ const romajiArray = [
   "ya",       "yu",       "yo",
   "ra", "ri", "ru", "re", "ro",
   "wa",             "wo", "n"
+];
+
+const katakanaArray = [
+  "ア", "イ", "ウ", "エ", "オ",
+  "カ", "キ", "ク", "ケ", "コ",
+  "サ", "シ", "ス", "セ", "ソ",
+  "タ", "チ", "ツ", "テ", "ト",
+  "ナ", "ニ", "ヌ", "ネ", "ノ",
+  "ハ", "ヒ", "フ", "ヘ", "ホ",
+  "マ", "ミ", "ム", "メ", "モ",
+  "ヤ",         "ユ",         "ヨ",
+  "ラ", "リ", "ル", "レ", "ロ",
+  "ワ",               "ヲ", "ン"
+];
+
+const romajiKArray = [
+  "a", "i", "u", "e", "o",
+  "ka", "ki", "ku", "ke", "ko",
+  "sa", "shi", "su", "se", "so",
+  "ta", "chi", "tsu", "te", "to",
+  "na", "ni", "nu", "ne", "no",
+  "ha", "hi", "fu", "he", "ho",
+  "ma", "mi", "mu", "me", "mo",
+  "ya",         "yu",         "yo",
+  "ra", "ri", "ru", "re", "ro",
+  "wa",               "wo", "n"
 ];
 
 const hiraganaToRomaji = {
@@ -140,6 +175,103 @@ const romajiToHiragana = {
   n: "ん",
 };
 
+const katakanaToRomaji = {
+  ア: "a",
+  イ: "i",
+  ウ: "u",
+  エ: "e",
+  オ: "o",
+  カ: "ka",
+  キ: "ki",
+  ク: "ku",
+  ケ: "ke",
+  コ: "ko",
+  サ: "sa",
+  シ: "shi",
+  ス: "su",
+  セ: "se",
+  ソ: "so",
+  タ: "ta",
+  チ: "chi",
+  ツ: "tsu",
+  テ: "te",
+  ト: "to",
+  ナ: "na",
+  ニ: "ni",
+  ヌ: "nu",
+  ネ: "ne",
+  ノ: "no",
+  ハ: "ha",
+  ヒ: "hi",
+  フ: "fu",
+  ヘ: "he",
+  ホ: "ho",
+  マ: "ma",
+  ミ: "mi",
+  ム: "mu",
+  メ: "me",
+  モ: "mo",
+  ヤ: "ya",
+  ユ: "yu",
+  ヨ: "yo",
+  ラ: "ra",
+  リ: "ri",
+  ル: "ru",
+  レ: "re",
+  ロ: "ro",
+  ワ: "wa",
+  ヲ: "wo",
+  ン: "n",
+};
+
+const romajiToKatakana = {
+  a: "ア",
+  i: "イ",
+  u: "ウ",
+  e: "エ",
+  o: "オ",
+  ka: "カ",
+  ki: "キ",
+  ku: "ク",
+  ke: "ケ",
+  ko: "コ",
+  sa: "サ",
+  shi: "シ",
+  su: "ス",
+  se: "セ",
+  so: "ソ",
+  ta: "タ",
+  chi: "チ",
+  tsu: "ツ",
+  te: "テ",
+  to: "ト",
+  na: "ナ",
+  ni: "ニ",
+  nu: "ヌ",
+  ne: "ネ",
+  no: "ノ",
+  ha: "ハ",
+  hi: "ヒ",
+  fu: "フ",
+  he: "ヘ",
+  ho: "ホ",
+  ma: "マ",
+  mi: "ミ",
+  mu: "ム",
+  me: "メ",
+  mo: "モ",
+  ya: "ヤ",
+  yu: "ユ",
+  yo: "ヨ",
+  ra: "ラ",
+  ri: "リ",
+  ru: "ル",
+  re: "レ",
+  ro: "ロ",
+  wa: "ワ",
+  wo: "ヲ",
+  n: "ン",
+};
 
 // Game Variables FOR TYPE 1
 let box1AnsT1 = "";
@@ -159,17 +291,18 @@ let currentRomaji = ``;
 let qNumber = 0;
 let score = 0;
 let streak = 0;
+let highestStreak = 0;
 const correctSound = new Audio("correct.mp3");
 const incorrectSound = new Audio("incorrect.mp3");
 const currentBoxesArray = [];
 //Functions
-
 const gameEnd = () => {
   if (qNumber === 46){
     guessGrid.style.display = "none";
     gameTypeButtons.style.display = "none";
     endCardDiv.style.display = "flex";
     finalScoreMe.innerText = `Final Score: ${score}`;
+    finalStreakMe.innerText = `Highest Streak:🔥 ${highestStreak}`
     if (score < 12){
       scoreMessage.innerText = `Make sure to study!`;
     }
@@ -225,7 +358,49 @@ const shuffleArray = () => {
     const shuffledArray = [];
     while (currentBoxesArray.length > 0) {
       const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
-      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0]; //ISSUE MAY STEM FROM HERE, KEY NOT BEING READ?
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
+      shuffledArray.push(randomChoice);
+    }
+    box1AnsT2 = shuffledArray[0];
+    box2AnsT2 = shuffledArray[1];
+    box3AnsT2 = shuffledArray[2];
+    box4AnsT2 = shuffledArray[3];
+  }
+  if (gameType === 3){ //Game Type 3 Shuffle
+    const currentRomaji = katakanaToRomaji[currentKatakana];
+    const currentBoxesArray = [currentRomaji];
+    while (currentBoxesArray.length < 4) {
+      const randomIndex = Math.floor(Math.random() * romajiKArray.length);
+      const randomRomaji = romajiKArray[randomIndex];
+      if (!currentBoxesArray.includes(randomRomaji)) {
+        currentBoxesArray.push(randomRomaji);
+      }
+    }
+    const shuffledArray = [];
+    while (currentBoxesArray.length > 0) {
+      const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
+      shuffledArray.push(randomChoice);
+    }
+    box1AnsT1 = shuffledArray[0];
+    box2AnsT1 = shuffledArray[1];
+    box3AnsT1 = shuffledArray[2];
+    box4AnsT1 = shuffledArray[3];
+  }
+  if (gameType === 4){ //Game Type 4 Shuffle
+    const currentKatakana = romajiToKatakana[currentRomaji];
+    const currentBoxesArray = [currentKatakana];
+    while (currentBoxesArray.length < 4) {
+      const randomIndex = Math.floor(Math.random() * katakanaArray.length);
+      const randomKatakana = katakanaArray[randomIndex];
+      if (!currentBoxesArray.includes(randomKatakana)) {
+        currentBoxesArray.push(randomKatakana);
+      }
+    }
+    const shuffledArray = [];
+    while (currentBoxesArray.length > 0) {
+      const randomIndex = Math.floor(Math.random() * currentBoxesArray.length);
+      const randomChoice = currentBoxesArray.splice(randomIndex, 1)[0];
       shuffledArray.push(randomChoice);
     }
     box1AnsT2 = shuffledArray[0];
@@ -242,6 +417,9 @@ const checkAnswer = (button) => {
       correctSound.play();
       score ++;
       streak ++;
+      if (streak > highestStreak){
+        highestStreak ++;
+      }
       toBeGuessed.innerText = "Correct!";
       setTimeout(() => {
         nextQuestion1();
@@ -260,6 +438,9 @@ const checkAnswer = (button) => {
       correctSound.play();
       score ++;
       streak ++;
+      if (streak > highestStreak){
+        highestStreak ++;
+      }
       toBeGuessed.innerText = "Correct!";
       setTimeout(() => {
         nextQuestion1();
@@ -267,7 +448,49 @@ const checkAnswer = (button) => {
     } else {
       incorrectSound.play();
       streak = 0;
-      toBeGuessed.innerText = `Wrong! The correct answer was ${hiraganaToRomaji[currentRomaji]}.`;
+      toBeGuessed.innerText = `Wrong! The correct answer was ${romajiToHiragana[currentRomaji]}.`;
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
+    }
+  }
+  if (gameType === 3){
+    if (button.innerText === katakanaToRomaji[currentKatakana]) {
+      correctSound.play();
+      score ++;
+      streak ++;
+      if (streak > highestStreak){
+        highestStreak ++;
+      }
+      toBeGuessed.innerText = "Correct!";
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
+    } else {
+      incorrectSound.play();
+      streak = 0;
+      toBeGuessed.innerText = `Wrong! The correct answer was ${katakanaToRomaji[currentKatakana]}.`;
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
+    }
+  }
+  if (gameType === 4){
+    if (button.innerText === romajiToKatakana[currentRomaji]) {
+      correctSound.play();
+      score ++;
+      streak ++;
+      if (streak > highestStreak){
+        highestStreak ++;
+      }
+      toBeGuessed.innerText = "Correct!";
+      setTimeout(() => {
+        nextQuestion1();
+      }, 1000);
+    } else {
+      incorrectSound.play();
+      streak = 0;
+      toBeGuessed.innerText = `Wrong! The correct answer was ${romajiToKatakana[currentRomaji]}.`;
       setTimeout(() => {
         nextQuestion1();
       }, 1000);
@@ -285,6 +508,20 @@ const startType1 = () => {
 
 const startType2 = () => {
   gameType = 2;
+  guessGrid.style.display = "grid";
+  gameTypeButtons.style.display = "none";
+  nextQuestion1();
+}
+
+const startType3 = () => {
+  gameType = 3;
+  guessGrid.style.display = "grid";
+  gameTypeButtons.style.display = "none";
+  nextQuestion1();
+}
+
+const startType4 = () => {
+  gameType = 4;
   guessGrid.style.display = "grid";
   gameTypeButtons.style.display = "none";
   nextQuestion1();
@@ -316,13 +553,54 @@ const nextQuestion1 = () => {
     box4.innerText = `${box4AnsT2}`;
     toBeGuessed.innerText = `${currentRomaji}`
   }
+  if (gameType === 3){
+    let randomIndex = Math.floor(Math.random() * katakanaArray.length);
+    currentKatakana = katakanaArray.splice(randomIndex, 1)[0];
+    shuffleArray();
+    toBeGuessed.innerText = `${currentKatakana}`;
+    box1.innerText = `${box1AnsT1}`;
+    box2.innerText = `${box2AnsT1}`;
+    box3.innerText = `${box3AnsT1}`;
+    box4.innerText = `${box4AnsT1}`;
+    toBeGuessed.innerText = `${currentKatakana}`
+  }
+  if (gameType === 4){
+    let randomIndex = Math.floor(Math.random() * romajiKArray.length);
+    currentRomaji = romajiKArray.splice(randomIndex, 1)[0];
+    shuffleArray();
+    toBeGuessed.innerText = `${currentRomaji}`;
+    box1.innerText = `${box1AnsT2}`;
+    box2.innerText = `${box2AnsT2}`;
+    box3.innerText = `${box3AnsT2}`;
+    box4.innerText = `${box4AnsT2}`;
+    toBeGuessed.innerText = `${currentRomaji}`
+  }
   questionNo.innerText = `Question ${qNumber+1}/46`;
   qNumber += 1;
 }
 
+const displaySelection = (selectOption) => {
+  whichGame.style.display = "grid";
+  whichKana.style.display = "none";
+  if (selectOption === "hiraganaSelect") {
+    kataGames.style.display = "none";
+  } else if (selectOption === "katakanaSelect") {
+    hiraGames.style.display = "none";
+  }
+};
+
+
 //Button Events
 typeOne.addEventListener("click", startType1);
 typeTwo.addEventListener("click", startType2);
+typeThree.addEventListener("click", startType3);
+typeFour.addEventListener("click", startType4);
+hiraganaSelect.addEventListener("click", () => {
+  displaySelection("hiraganaSelect");
+});
+katakanaSelect.addEventListener("click", () => {
+  displaySelection("katakanaSelect");
+});
 guessButtons.forEach((button) => {
   button.addEventListener("click", () => {
     checkAnswer(button);
